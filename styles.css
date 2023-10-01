@@ -50,11 +50,90 @@ button {
     font-size: 18px;
 }
 
+.forecast-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .forecast-item {
+    width: calc(33.33% - 10px);
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 10px;
     border-radius: 5px;
     background-color: #f9f9f9;
+    text-align: center;
 }
+
+.date {
+    font-weight: bold;
+}
+
+.condition {
+    margin-top: 5px;
+    color: #007bff; /* Blue color for condition text */
+}
+
+.temp {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* ... (Previous code) */
+
+.current-weather {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.current-weather h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.condition {
+    font-size: 18px;
+    color: #007bff; /* Blue color for condition text */
+}
+
+.temp {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.temp-c, .temp-f {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.humidity {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.visibility {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.feelslike {
+    margin-top: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.uv {
+    margin-top: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+
+
 

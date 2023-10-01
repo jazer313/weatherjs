@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const zipCodeInput = document.getElementById("zipCodeInput");
   const getWeatherBtn = document.getElementById("getWeatherBtn");
   const weatherInfo = document.getElementById("weatherInfo");
+  const moreInfo = document.getElementById("moreInfo");
 
   getWeatherBtn.addEventListener("click", function () {
     const zipCode = zipCodeInput.value.trim();
@@ -17,19 +18,36 @@ document.addEventListener("DOMContentLoaded", function () {
     const apiKey = "";
     const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${zipCode}`;
 
+    const currentWeather = document.createElement("div");
+    currentWeather.classList.add("current-weather");
+
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        const { location, current } = data;
-        const weatherDescription = current.condition.text;
-        const temperature = current.temp_f;
-        const cityName = location.name;
-        const feelsLike = current.feelslike_f;
-        const uv = current.uv;
-        const visMiles = current.vis_miles;
+        const conditionText = data.current.condition.text;
+        const currentTempC = data.current.temp_c;
+        const currentTempF = data.current.temp_f;
+        const humidity = data.current.humidity;
+        const cityName = data.location.name;
+        const feelsLike = data.current.feelslike_f;
+        const uv = data.current.uv;
+        const visMiles = data.current.vis_miles;
 
-        weatherInfo.innerHTML = `${cityName}: ${weatherDescription}, ${temperature}°F`;
-        moreInfo.innerHTML = `Feels like: ${feelsLike}°F | UV Index:${uv} | Visibility ${visMiles} Miles`;
+        currentWeather.innerHTML = `
+    <h2>Current Weather</h2>
+    <div class="condition">${conditionText}</div>
+    <div class="temp">
+        <span class="temp-c">${currentTempC}°C</span>
+        <span class="temp-f">${currentTempF}°F</span>
+    </div>
+    <div class="feelslike">Feels like: ${feelsLike}°F</div>
+    <div class="uv">UV Index: ${uv}</div>
+    <div class="humidity">Humidity: ${humidity}%</div>
+    <div class="visibility">Visibility: ${visMiles} Miles</div>
+`;
+
+        weatherInfo.innerHTML = `${cityName}: ${conditionText}, ${currentTempF}°F`;
+        moreInfo.appendChild(currentWeather);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -44,13 +62,10 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         const { forecast } = data;
         const forecastDays = forecast.forecastday;
-
-        // Display the current weather
-        // ...
-
-        // Display the 3-day forecast
         const forecastInfo = document.getElementById("forecastInfo");
         forecastInfo.innerHTML = "<h2>3-Day Forecast</h2>";
+        const forecastItems = document.createElement("div");
+        forecastItems.classList.add("forecast-items");
 
         forecastDays.forEach((day) => {
           const date = day.date;
@@ -61,14 +76,16 @@ document.addEventListener("DOMContentLoaded", function () {
           const forecastItem = document.createElement("div");
           forecastItem.classList.add("forecast-item");
           forecastItem.innerHTML = `
-                            <div>Date: ${date}</div>
-                            <div>Condition: ${condition}</div>
-                            <div>Max Temp: ${maxTemp}°F</div>
-                            <div>Min Temp: ${minTemp}°F</div>
-                        `;
+                <div class="date">${date}</div>
+                <div class="condition">${condition}</div>
+                <div class="temp">Max Temp: ${maxTemp}°F</div>
+                <div class="temp">Min Temp: ${minTemp}°F</div>
+            `;
 
-          forecastInfo.appendChild(forecastItem);
+          forecastItems.appendChild(forecastItem);
         });
+
+        forecastInfo.appendChild(forecastItems);
       })
       .catch((error) => {
         console.error("Error fetching forecast data:", error);
